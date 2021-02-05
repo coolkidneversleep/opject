@@ -1,0 +1,21 @@
+version: "3"
+services:
+    opject:
+        build:
+            context: ./opject
+            dockerfile: Dockerfile
+        volumes:
+            - ./opject:/usr/src/app
+            - /usr/src/app/node_modules
+            - ./opject/.next:/usr/src/app/.next
+        ports:
+            - "3000:3000"
+    nginx:
+        restart: always
+        depends_on:
+            - opject
+        build:
+            dockerfile: Dockerfile
+            context: ./nginx
+        ports:
+            - "80:80"
